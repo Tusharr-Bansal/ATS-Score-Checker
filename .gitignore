@@ -8,3 +8,5 @@ backend/eval/.cache/
 .venv/
 venv/
 _to_delete/
+
+Claude outputs/

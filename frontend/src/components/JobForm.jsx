@@ -45,6 +45,12 @@ export default function JobForm({ onCreated, onError }) {
             {file ? <b>{file.name}</b> : <span>Choose a PDF, DOCX or TXT file</span>}
           </label>
         )}
+        {mode === "upload" && text.trim() && (
+          <p className="muted small">Only the uploaded file will be analysed; your pasted text is ignored.</p>
+        )}
+        {mode === "paste" && file && (
+          <p className="muted small">Only the pasted text will be analysed; the selected file ({file.name}) is ignored.</p>
+        )}
         <button className="primary" disabled={!ready || busy}>
           {busy ? "Extracting requirements…" : "Analyse job description"}
         </button>

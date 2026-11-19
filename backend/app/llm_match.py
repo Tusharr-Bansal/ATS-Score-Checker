@@ -23,7 +23,7 @@ from .config import settings
 from .schemas import JDData, SkillReq
 
 log = logging.getLogger("checkres.llm_match")
-PROMPT_VERSION = "v1"
+PROMPT_VERSION = "v2"  # v2: also rates relevance of each role and project
 
 
 class ReqVerdict(BaseModel):
@@ -34,9 +34,16 @@ class ReqVerdict(BaseModel):
     reason: str = Field("", description="Max 12 words")
 
 
+class ItemRating(BaseModel):
+    item_id: str = Field(description="Role or project id from the list, e.g. 'E1' or 'P2'")
+    relevance: float = Field(description="0 = unrelated, 0.5 = related or transferable, 1 = the same kind of work")
+    reason: str = Field("", description="Max 12 words")
+
+
 class CandidateVerdicts(BaseModel):
     candidate_id: str = Field(description="Candidate id, e.g. 'C2'")
     verdicts: list[ReqVerdict]
+    ratings: list[ItemRating] = Field(default_factory=list)
 
 
 class BatchVerdicts(BaseModel):
@@ -57,6 +64,10 @@ Status rules:
 
 evidence: copy the shortest exact phrase from that candidate's resume (max 20 words) that proves the
 verdict, character for character. Never paraphrase. Use "" for not_met.
+
+Also rate how relevant each listed role (E1, E2, ...) and project (P1, P2, ...) is to THIS job, judging the
+work actually described in the resume rather than the job title: 1 = the same kind of work,
+0.5 = related or transferable work, 0 = unrelated.
 
 REQUIREMENTS
 {requirements}
@@ -97,9 +108,18 @@ def verify_quote(quote: str, resume_text: str) -> bool:
 
 
 # ----------------------------------------------------------------------------- batching
-async def _judge_chunk(jd: JDData, chunk: list[tuple[str, str]]) -> dict[str, dict[str, dict]]:
+def _items_line(res) -> str:
+    if res is None:
+        return ""
+    items = [f"E{i + 1} = {e.title} at {e.company} ({e.start or '?'} to {e.end or '?'})" for i, e in enumerate(res.experience)]
+    items += [f"P{i + 1} = project: {p.name}" for i, p in enumerate(res.projects)]
+    return ("ROLES AND PROJECTS TO RATE: " + "; ".join(items) + "\n") if items else ""
+
+
+async def _judge_chunk(jd: JDData, chunk: list[tuple]) -> dict[str, dict]:
     reqs = requirement_list(jd)
-    cands = "\n\n".join(f"=== C{i + 1} ===\n{text[:7000]}" for i, (_, text) in enumerate(chunk))
+    cands = "\n\n".join(f"=== C{i + 1} ===\n{_items_line(item[2] if len(item) > 2 else None)}RESUME:\n{item[1][:7000]}"
+                          for i, item in enumerate(chunk))
     prompt = PROMPT.format(requirements="\n".join(_req_line(*r) for r in reqs), candidates=cands)
     res: BatchVerdicts = await llm._generate(prompt, BatchVerdicts)
     valid_ids = {rid for rid, _, _ in reqs}
@@ -108,7 +128,7 @@ async def _judge_chunk(jd: JDData, chunk: list[tuple[str, str]]) -> dict[str, di
         m = re.fullmatch(r"C(\d+)", cv.candidate_id.strip())
         if not m or not (1 <= int(m.group(1)) <= len(chunk)):
             continue
-        key, text = chunk[int(m.group(1)) - 1]
+        key, text = chunk[int(m.group(1)) - 1][:2]
         verdicts = {}
         for v in cv.verdicts:
             if v.requirement_id not in valid_ids:
@@ -121,13 +141,16 @@ async def _judge_chunk(jd: JDData, chunk: list[tuple[str, str]]) -> dict[str, di
                 "reason": v.reason.strip(),
                 "verified": verified,
             }
-        out[key] = verdicts
+        ratings = {r.item_id.strip(): {"relevance": max(0.0, min(1.0, float(r.relevance))), "reason": r.reason.strip()}
+                   for r in cv.ratings if re.fullmatch(r"[EP]\d+", r.item_id.strip())}
+        out[key] = {"reqs": verdicts, "ratings": ratings}
     return out
 
 
-async def match_batch(jd: JDData, items: list[tuple[str, str]], on_chunk=None) -> dict[str, dict[str, dict]]:
-    """items: [(key, resume_text)] -> {key: {requirement_id: verdict}}. Failed chunks are omitted
-    (callers fall back to the taxonomy matcher for those candidates)."""
+async def match_batch(jd: JDData, items: list[tuple], on_chunk=None) -> dict[str, dict]:
+    """items: [(key, resume_text, ResumeData | None)] ->
+    {key: {"reqs": {requirement_id: verdict}, "ratings": {"E1"/"P1": {relevance, reason}}}}.
+    Failed chunks are omitted (callers fall back to the rule-based path for those candidates)."""
     if not items or not requirement_list(jd):
         return {}
     size = max(1, settings.match_batch_size)

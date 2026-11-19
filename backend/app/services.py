@@ -77,8 +77,8 @@ async def _judge_skills(job_id: int, cand_ids: list[int]) -> dict:
         return {}
     with SessionLocal() as db:
         jd = JDData.model_validate(db.get(Job, job_id).data)
-        items = [(str(c.id), c.raw_text) for c in (db.get(Candidate, cid) for cid in cand_ids)
-                 if c.status != "error" and c.data]
+        items = [(str(c.id), c.raw_text, ResumeData.model_validate(c.data))
+                 for c in (db.get(Candidate, cid) for cid in cand_ids) if c.status != "error" and c.data]
     try:
         return await llm_match.match_batch(jd, items)
     except Exception:

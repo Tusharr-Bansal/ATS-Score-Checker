@@ -224,7 +224,10 @@ def score_semantic(ctx, chunks, chunk_vecs, emb):
 
 
 # ----------------------------------------------------------------------------- experience
-def score_experience(ctx, res, chunks, chunk_vecs, emb, req_options: list[tuple[list[str], float]]):
+def score_experience(ctx, res, chunks, chunk_vecs, emb, req_options: list[tuple[list[str], float]],
+                     ratings: dict | None = None):
+    """Relevance of each role: rated by the LLM when available (it reads what the work was), otherwise
+    from embedding similarity + job title + skill overlap."""
     entries, rel_months = [], 0.0
     exp_chunks = [(c, v) for c, v in zip(chunks, chunk_vecs) if c.get("exp") is not None]
     title_vecs = emb.embed([c["exp"].title or "role" for c, _ in exp_chunks]) if exp_chunks else []
@@ -242,11 +245,17 @@ def score_experience(ctx, res, chunks, chunk_vecs, emb, req_options: list[tuple[
         overlap = hits / sum(w for _, w in req_options) if req_options else 0.0
         # a matching job title is enough on its own; otherwise description AND skills must agree
         relevance = max(title, 0.5 * sem + 0.5 * overlap)
+        judged_by, reason = "rules", ""
+        idx = next((i for i, x in enumerate(res.experience) if x is e), None)
+        rated = (ratings or {}).get(f"E{idx + 1}") if idx is not None else None
+        if rated is not None:
+            relevance, judged_by, reason = rated["relevance"], "llm", rated.get("reason", "")
         intern = "intern" in e.title.lower()
         weight = relevance * (INTERN_WEIGHT if intern else 1.0)
         rel_months += months * weight
         entries.append({"title": e.title, "company": e.company, "start": e.start, "end": e.end,
-                        "months": months, "relevance": round(relevance, 2), "internship": intern})
+                        "months": months, "relevance": round(relevance, 2), "internship": intern,
+                        "judged_by": judged_by, "reason": reason})
     total_years = res.total_years
     relevant_years = round(min(rel_months / 12, total_years if total_years else rel_months / 12), 1)
     req = ctx.jd.min_years
@@ -296,10 +305,13 @@ def score_candidate(ctx: JobContext, res: ResumeData, text: str, emb: Embedder,
     chunks = resume_chunks(res)
     chunk_vecs = emb.embed([c["text"] for c in chunks])
 
-    s_skill, req_cov, pref_cov, skill_details = score_skills(ctx, res, text, emb, verdicts, mode)
+    # verdicts: {"reqs": {...}, "ratings": {...}} from llm_match (v1 caches held the reqs dict directly)
+    req_verdicts = (verdicts.get("reqs", verdicts) if verdicts else None)
+    ratings = (verdicts.get("ratings", {}) if verdicts else {})
+    s_skill, req_cov, pref_cov, skill_details = score_skills(ctx, res, text, emb, req_verdicts, mode)
     s_sem, sem_overall, sem_cov, resp_details = score_semantic(ctx, chunks, chunk_vecs, emb)
     req_options = [([r.name, *r.alternatives], 2.0 if r.core else 1.0) for r in ctx.jd.required_skills]
-    s_exp, exp_info = score_experience(ctx, res, chunks, chunk_vecs, emb, req_options)
+    s_exp, exp_info = score_experience(ctx, res, chunks, chunk_vecs, emb, req_options, ratings)
     s_edu, edu_info = score_education(ctx, res, emb)
 
     w = {"skills": settings.w_skills, "semantic": settings.w_semantic,
@@ -332,6 +344,10 @@ def score_candidate(ctx: JobContext, res: ResumeData, text: str, emb: Embedder,
         "experience": exp_info,
         "education": edu_info,
         "responsibility_coverage": resp_details,
+        # shown to the recruiter but NOT counted in experience years
+        "projects": [{"name": p.name, "relevance": ratings[f"P{i + 1}"]["relevance"],
+                      "reason": ratings[f"P{i + 1}"].get("reason", "")}
+                     for i, p in enumerate(res.projects) if f"P{i + 1}" in ratings],
     }
     result["reasons"] = build_reasons(ctx, result)
     return result
@@ -382,6 +398,10 @@ def build_reasons(ctx: JobContext, r: dict) -> list[dict]:
     else:
         out.append({"type": "neutral", "text": f"{e['relevant_years']} years of relevant experience "
                                                 f"({e['total_years']} total); JD states no minimum."})
+    rel_projects = sorted((p for p in r.get("projects", []) if p["relevance"] >= 0.5), key=lambda p: -p["relevance"])
+    if rel_projects:
+        out.append({"type": "positive", "text": "Relevant projects (shown for context, not counted in years): "
+                    + ", ".join(f"{p['name']}" for p in rel_projects[:3]) + "."})
     weak_roles = [x for x in e["entries"] if x["relevance"] < 0.4 and x["months"] >= 6]
     if weak_roles:
         out.append({"type": "neutral", "text": "Experience counted only partially (less related to this role): "

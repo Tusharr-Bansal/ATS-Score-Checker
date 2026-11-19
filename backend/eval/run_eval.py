@@ -106,7 +106,7 @@ async def load_verdicts(jobs, resumes) -> dict:
     for jid, (_, jd, _) in jobs.items():
         cf = cache / f"{jid}.json"
         out[jid] = json.loads(cf.read_text()) if cf.exists() else {}
-        missing = [(f, rtext) for f, (rtext, _, _) in resumes.items() if f not in out[jid]]
+        missing = [(f, rtext, rd) for f, (rtext, rd, _) in resumes.items() if f not in out[jid]]
         if missing:
             todo.append((jid, jd, missing, cf))
     if not todo:

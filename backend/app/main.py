@@ -48,6 +48,8 @@ def _job_out(job: Job, n: int | None = None) -> dict:
 # ------------------------------------------------------------------ Module 1: JD
 @app.post("/api/jobs")
 async def create_job(text: str = Form(""), file: UploadFile | None = File(None)):
+    if file is not None and file.filename and text.strip():
+        raise HTTPException(400, "Send either pasted text or a file, not both.")
     if file is not None and file.filename:
         try:
             text = extract_text(file.filename, await file.read())

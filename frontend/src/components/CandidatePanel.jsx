@@ -98,11 +98,32 @@ function Body({ c }) {
               <td>{x.title}<div className="muted small">{x.company}{x.internship && " · internship (counts 50%)"}</div></td>
               <td className="small">{x.start || "?"} → {x.end || "?"}</td>
               <td className="small">{fmtMonths(x.months)}</td>
-              <td><div className="bar thin"><div style={{ width: `${x.relevance * 100}%` }} /></div></td>
+              <td>
+                <div className="bar thin"><div style={{ width: `${x.relevance * 100}%` }} /></div>
+                {x.reason && <div className="muted small">{x.reason}</div>}
+                <div className="muted small">{x.judged_by === "llm" ? "rated by LLM" : "rules"}</div>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {r.projects?.length > 0 && (
+        <>
+          <h3>Relevant projects <span className="small muted">(shown for context, not counted in years)</span></h3>
+          <table className="mini">
+            <tbody>
+              {[...r.projects].sort((a, b) => b.relevance - a.relevance).map((x, i) => (
+                <tr key={i}>
+                  <td>{x.name}</td>
+                  <td className="small muted">{x.reason}</td>
+                  <td><div className="bar thin"><div style={{ width: `${x.relevance * 100}%` }} /></div></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
 
       {r.responsibility_coverage?.length > 0 && (
         <>
