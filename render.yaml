@@ -1,0 +1,39 @@
+# Render Blueprint: backend API (Docker, free) + frontend (static site, free).
+# Database: Neon Postgres (free, no expiry). Paste its connection string as DATABASE_URL.
+# Render asks for every `sync: false` value once, when the Blueprint is first created.
+services:
+  - type: web
+    name: ats-score-checker-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/health
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: DATABASE_URL          # Neon: postgresql://USER:PASSWORD@HOST/neondb?sslmode=require
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-3.5-flash-lite
+      - key: GEMINI_EMBED_MODEL
+        value: gemini-embedding-001
+      - key: LLM_RPM
+        value: "10"
+      - key: EMBED_PER_MIN
+        value: "90"
+      - key: CORS_ORIGINS
+        value: "*"
+
+  - type: web
+    name: ats-score-checker
+    runtime: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/dist
+    envVars:
+      - key: VITE_API_URL          # the backend's public URL, e.g. https://ats-score-checker-api.onrender.com
+        sync: false
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
