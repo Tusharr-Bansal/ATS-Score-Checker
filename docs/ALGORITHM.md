@@ -1,6 +1,6 @@
 # Matching algorithm & scoring methodology
 
-ATSScore combines an LLM with deterministic scoring. An LLM (Gemini) does what it is best at, turning messy documents
+CheckRes combines an LLM with deterministic scoring. An LLM (Gemini) does what it is best at, turning messy documents
 into structured data. The **score itself is deterministic and transparent**: it is computed from
 explicit evidence (skills found, years counted, similarities measured), so every point can be
 explained and the same inputs always give the same score.

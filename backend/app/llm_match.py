@@ -22,7 +22,7 @@ from . import llm
 from .config import settings
 from .schemas import JDData, SkillReq
 
-log = logging.getLogger("atsscore.llm_match")
+log = logging.getLogger("checkres.llm_match")
 PROMPT_VERSION = "v1"
 
 

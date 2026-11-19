@@ -13,7 +13,7 @@ from .embeddings import get_embedder
 from .matching import prepare_job, prewarm, score_candidate
 from .schemas import JDData, ResumeData
 
-log = logging.getLogger("atsscore.services")
+log = logging.getLogger("checkres.services")
 
 
 def _cached_extraction(db, content_hash: str, exclude_id: int):

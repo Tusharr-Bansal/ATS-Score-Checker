@@ -12,7 +12,7 @@ from pydantic import BaseModel
 from .config import settings
 from .schemas import JDData, ResumeData
 
-log = logging.getLogger("atsscore.llm")
+log = logging.getLogger("checkres.llm")
 _client = None
 _sem: asyncio.Semaphore | None = None
 

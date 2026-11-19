@@ -52,7 +52,7 @@ export default function App() {
     <div className="app">
       <aside className="sidebar">
         <div className="brand">
-          <span className="logo">◎</span> ATSScore
+          <span className="logo">◎</span> CheckRes
         </div>
         <button className={`new-job ${jobId == null ? "active" : ""}`} onClick={() => setJobId(null)}>
           + New job description

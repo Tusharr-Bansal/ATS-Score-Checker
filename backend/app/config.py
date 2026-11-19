@@ -17,7 +17,7 @@ def _f(name: str, default: float) -> float:
 
 
 class Settings:
-    database_url: str = os.getenv("DATABASE_URL", "sqlite:///./atsscore.db")
+    database_url: str = os.getenv("DATABASE_URL", "sqlite:///./checkres.db")
     gemini_api_key: str = os.getenv("GEMINI_API_KEY", "") or os.getenv("GOOGLE_API_KEY", "")
     gemini_model: str = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
     gemini_embed_model: str = os.getenv("GEMINI_EMBED_MODEL", "gemini-embedding-001")

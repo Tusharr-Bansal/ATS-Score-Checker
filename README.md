@@ -1,6 +1,6 @@
-# ATSScore: AI resume matching & candidate ranking
+# CheckRes: AI resume matching & candidate ranking
 
-Upload a job description and a batch of resumes (PDF/DOCX). ATSScore extracts structured
+Upload a job description and a batch of resumes (PDF/DOCX). CheckRes extracts structured
 requirements and candidate profiles, scores each candidate 0–100 against the JD, ranks them, and
 explains every score: matched, related and missing skills, relevant vs required experience,
 education, and which parts of the resume support which JD responsibilities.
@@ -71,7 +71,7 @@ Any document or candidate the LLM cannot handle (outage, retries exhausted) fall
 path automatically, and the explanation says so.
 
 ### Free-tier quotas
-The Gemini free tier has per-minute and per-day limits per Google Cloud project. ATSScore paces its
+The Gemini free tier has per-minute and per-day limits per Google Cloud project. CheckRes paces its
 own requests so it stays within them instead of retrying into 429 errors:
 
 | Setting | Default | Why |

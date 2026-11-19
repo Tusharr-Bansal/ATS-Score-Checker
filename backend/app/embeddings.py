@@ -17,7 +17,7 @@ import numpy as np
 
 from .config import settings
 
-log = logging.getLogger("atsscore.embeddings")
+log = logging.getLogger("checkres.embeddings")
 
 CALIBRATION = {
     # doc_lo/doc_hi: passage-vs-passage similarity ramp

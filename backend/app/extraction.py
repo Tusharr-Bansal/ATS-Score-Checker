@@ -12,7 +12,7 @@ from .config import settings
 from .dates import merged_months
 from .schemas import JDData, ResumeData, SkillReq
 
-log = logging.getLogger("atsscore.extraction")
+log = logging.getLogger("checkres.extraction")
 
 
 def _norm_reqs(reqs: list[SkillReq], exclude: set[str] = frozenset()) -> list[SkillReq]:

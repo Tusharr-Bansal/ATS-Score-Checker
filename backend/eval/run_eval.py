@@ -181,7 +181,7 @@ def main():
     ap.add_argument("--errors", action="store_true", help="list every skill-level matching error")
     args = ap.parse_args()
     logging.basicConfig(level=logging.WARNING, format="  %(levelname)s %(name)s: %(message)s")
-    logging.getLogger("atsscore.embeddings").setLevel(logging.INFO)
+    logging.getLogger("checkres.embeddings").setLevel(logging.INFO)
 
     t0 = time.time()
     labels, jobs, resumes = asyncio.run(load_all(args.refresh))

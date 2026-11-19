@@ -3,7 +3,7 @@
 # Render asks for every `sync: false` value once, when the Blueprint is first created.
 services:
   - type: web
-    name: ats-score-checker-api
+    name: checkres-api
     runtime: docker
     plan: free
     dockerfilePath: ./backend/Dockerfile
@@ -26,12 +26,12 @@ services:
         value: "*"
 
   - type: web
-    name: ats-score-checker
+    name: checkres
     runtime: static
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: ./frontend/dist
     envVars:
-      - key: VITE_API_URL          # the backend's public URL, e.g. https://ats-score-checker-api.onrender.com
+      - key: VITE_API_URL          # the backend's public URL, e.g. https://checkres-api.onrender.com
         sync: false
     routes:
       - type: rewrite

@@ -4,10 +4,10 @@ services:
     environment:
       POSTGRES_USER: ats
       POSTGRES_PASSWORD: ats
-      POSTGRES_DB: atsscore
+      POSTGRES_DB: checkres
     volumes: [pgdata:/var/lib/postgresql/data]
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ats -d atsscore"]
+      test: ["CMD-SHELL", "pg_isready -U ats -d checkres"]
       interval: 3s
       retries: 10
 
@@ -19,7 +19,7 @@ services:
         WITH_LOCAL_EMBEDDINGS: "${WITH_LOCAL_EMBEDDINGS:-false}"
     env_file: [./backend/.env]
     environment:
-      DATABASE_URL: postgresql://ats:ats@db:5432/atsscore
+      DATABASE_URL: postgresql://ats:ats@db:5432/checkres
     depends_on:
       db: { condition: service_healthy }
     ports: ["8000:8000"]

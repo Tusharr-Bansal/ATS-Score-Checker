@@ -1,4 +1,4 @@
-"""ATSScore API.
+"""CheckRes API.
 
   POST /api/jobs                       Module 1  paste or upload a JD -> extracted requirements
   GET  /api/jobs | /api/jobs/{id}
@@ -22,7 +22,7 @@ from .parsing import ParseError, extract_text
 from .services import process_batch
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
-app = FastAPI(title="ATSScore — AI Resume Matching & Ranking", version="1.0.0")
+app = FastAPI(title="CheckRes — AI Resume Matching & Ranking", version="1.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins, allow_methods=["*"], allow_headers=["*"])
 
 
