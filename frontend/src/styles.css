@@ -40,6 +40,14 @@ button { font: inherit; cursor: pointer; }
 .job-list li.empty { color: #6b7280; cursor: default; }
 .job-title { color: #f3f4f6; font-size: 13px; }
 .job-meta { font-size: 11px; color: #9ca3af; }
+.owner { font-size: 12px; color: #9ca3af; border-top: 1px solid #374151; padding-top: 10px; }
+.owner b { color: #e5e7eb; }
+.owner-links { display: flex; gap: 6px; margin-top: 2px; }
+.owner-links a { color: #91a7ff; text-decoration: none; }
+.owner-links a:hover { text-decoration: underline; }
+.demo-banner { background: var(--warn-soft); color: #7a4a00; border: 1px solid #f5d9a8; border-radius: 10px;
+  padding: 10px 14px; margin-bottom: 16px; font-size: 13px; line-height: 1.5; }
+.demo-banner a { color: #7a4a00; font-weight: 600; }
 .engine { font-size: 11px; color: #9ca3af; border-top: 1px solid #374151; padding-top: 10px; }
 .engine b { color: #e5e7eb; }
 .bad { color: #ff8787; }

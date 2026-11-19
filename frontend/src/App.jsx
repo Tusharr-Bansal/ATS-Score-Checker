@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "./api.js";
+import { OWNER } from "./owner.js";
 import JobForm from "./components/JobForm.jsx";
 import JobDetails from "./components/JobDetails.jsx";
 import ResumeUpload from "./components/ResumeUpload.jsx";
@@ -67,6 +68,14 @@ export default function App() {
           ))}
           {jobs.length === 0 && <li className="empty">No jobs yet</li>}
         </ul>
+        <div className="owner">
+          <div>Built by <b>{OWNER.name}</b></div>
+          <div className="owner-links">
+            <a href={OWNER.github} target="_blank" rel="noreferrer">GitHub</a>
+            <span>·</span>
+            <a href={`mailto:${OWNER.email}`}>Email</a>
+          </div>
+        </div>
         {health && (
           <div className="engine">
             {health.status === "down" ? (
@@ -82,6 +91,13 @@ export default function App() {
       </aside>
 
       <main className="main">
+        <div className="demo-banner">
+          <b>Demo</b> · Built by {OWNER.name} as a project demonstration. Uses synthetic sample resumes and
+          free-tier hosting, so the first request after a quiet period can take up to a minute.
+          Please don't upload real people's resumes.{" "}
+          <a href={OWNER.github} target="_blank" rel="noreferrer">Source on GitHub</a> ·{" "}
+          <a href={`mailto:${OWNER.email}`}>{OWNER.email}</a>
+        </div>
         {error && <div className="alert" onClick={() => setError("")}>{error} ✕</div>}
         {jobId == null ? (
           <JobForm onCreated={onJobCreated} onError={setError} />
