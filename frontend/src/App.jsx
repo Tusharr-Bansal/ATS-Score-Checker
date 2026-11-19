@@ -102,11 +102,16 @@ export default function App() {
         {jobId == null ? (
           <JobForm onCreated={onJobCreated} onError={setError} />
         ) : (
-          <>
-            {job && <JobDetails job={job} />}
-            <ResumeUpload jobId={jobId} onUploaded={onUploaded} onError={setError} />
-            {ranking && <RankingTable ranking={ranking} job={job} onSelect={setSelected} selectedId={selected} />}
-          </>
+          job ? (
+            // resume upload only appears once the role has been analysed and its requirements are shown
+            <>
+              <JobDetails job={job} />
+              <ResumeUpload jobId={jobId} onUploaded={onUploaded} onError={setError} />
+              {ranking && <RankingTable ranking={ranking} job={job} onSelect={setSelected} selectedId={selected} />}
+            </>
+          ) : (
+            <section className="card muted">Loading the role analysis… (the free server can take up to a minute to wake up)</section>
+          )
         )}
       </main>
 

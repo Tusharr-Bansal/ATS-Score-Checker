@@ -146,9 +146,6 @@ def _from_verdict(req: SkillReq, v: dict) -> dict:
     """Turn a verified LLM verdict (llm_match.py) into a skill detail row."""
     label = req.name + (f" (or {', '.join(req.alternatives)})" if req.alternatives else "")
     quote = f"“{v['evidence']}”" if v.get("evidence") else ""
-    if not v.get("verified", True):
-        return {"skill": label, "status": "missing", "credit": 0.0, "via": None, "source": "llm",
-                "evidence": f"LLM claimed '{v['claimed']}' but its quote was not found in the resume (discarded)"}
     status, credit = {"met": ("matched", 1.0), "partial": ("partial", 0.5), "not_met": ("missing", 0.0)}[v["status"]]
     text = " — ".join(x for x in (quote, v.get("reason", "")) if x) or "Not found"
     return {"skill": label, "status": status, "credit": credit, "via": v.get("evidence") or None,
@@ -174,11 +171,17 @@ def score_skills(ctx, res, text, emb, verdicts: dict | None = None, mode: str | 
         for r in reqs:
             i += 1
             v = (verdicts or {}).get(f"R{i}") if mode == "llm" else None
-            if v is not None:
+            if v is not None and v.get("verified", True):
                 d = _from_verdict(r, v)
             else:
+                # no LLM verdict (taxonomy mode / outage), or the LLM's quote was not found in the resume:
+                # use the rule-based matcher for this requirement instead of scoring it zero
                 d = _match_requirement(r, explicit, implied_by, text, cand_names, cand_vecs(), ctx, emb)
                 d["source"] = "taxonomy"
+                if v is not None:
+                    d["source"] = "llm_rejected"
+                    d["evidence"] = (f"{d['evidence']}. (LLM said '{v['claimed']}' quoting "
+                                     f"“{v.get('evidence', '')[:80]}”, which is not in the resume, so rules decided)")
             d["kind"] = kind
             d["core"] = bool(getattr(r, "core", False)) and kind == "required"
             details.append(d)
@@ -360,10 +363,11 @@ def build_reasons(ctx: JobContext, r: dict) -> list[dict]:
         out.append({"type": "neutral", "text": "Inferred skills (not listed explicitly): "
                     + "; ".join(f"{d['skill']} ← {d['evidence']}" for d in implied[:4]) + "."})
 
-    discarded = [d for d in r["skill_details"] if "was not found in the resume" in d["evidence"]]
+    discarded = [d for d in r["skill_details"] if d.get("source") == "llm_rejected"]
     if discarded:
-        out.append({"type": "neutral", "text": f"{len(discarded)} LLM skill claim(s) discarded because the quoted "
-                    "evidence does not appear in the resume: " + ", ".join(d["skill"] for d in discarded[:4]) + "."})
+        out.append({"type": "neutral", "text": f"{len(discarded)} LLM skill claim(s) had a quote that is not in the "
+                    "resume, so the rule-based matcher decided them instead: "
+                    + ", ".join(d["skill"] for d in discarded[:4]) + "."})
     llm_rows = [d for d in r["skill_details"] if d.get("source") == "llm"]
     if llm_rows:
         out.append({"type": "neutral", "text": f"Skill verdicts: {len(llm_rows)} judged by the LLM with verified "

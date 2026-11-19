@@ -9,7 +9,10 @@ const COMPONENTS = [
   ["education", "Education", "Degree level and field vs the JD"],
 ];
 const STATUS = { matched: "✓", partial: "◐", related: "≈", missing: "✕" };
-const SOURCE = { llm: "LLM · verified quote", taxonomy: "rules" };
+const judgedBy = (s) =>
+  s.source === "llm" ? (s.status === "missing" ? "LLM" : "LLM · verified quote")
+  : s.source === "llm_rejected" ? "LLM quote rejected → rules"
+  : "Rules";
 const fmtMonths = (m) => (m >= 12 ? `${(m / 12).toFixed(1)} yrs` : `${m} mo`);
 
 export default function CandidatePanel({ id, onClose }) {
@@ -75,7 +78,7 @@ function Body({ c }) {
               <td>{s.core && "★ "}{s.skill}</td>
               <td className="muted small">{s.kind}</td>
               <td className="small">{s.evidence}</td>
-              <td className="small muted">{SOURCE[s.source] || ""}</td>
+              <td className="small muted">{judgedBy(s)}</td>
             </tr>
           ))}
         </tbody>
