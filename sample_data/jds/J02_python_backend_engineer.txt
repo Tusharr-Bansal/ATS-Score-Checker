@@ -1,0 +1,26 @@
+Backend Engineer (Python)
+Company: Brightleaf Health (fictional)  |  Location: Remote (India)
+
+We build APIs that power a telehealth platform used by thousands of clinics.
+
+What you will do
+- Build and scale REST APIs with Python using FastAPI and Django
+- Design PostgreSQL schemas and optimise queries
+- Implement background jobs with Celery and Redis
+- Ship services in Docker containers through CI pipelines
+- Collaborate with frontend and product teams on API contracts
+
+What we need
+- 3+ years building backend services in Python
+- FastAPI or Django (Django REST Framework)
+- REST API design
+- PostgreSQL / SQL
+- Redis and Celery (or another task queue)
+- Docker
+- Bachelor's degree in Computer Science, IT or equivalent
+
+Good to have
+- AWS
+- Kubernetes
+- GraphQL
+- Healthcare domain exposure

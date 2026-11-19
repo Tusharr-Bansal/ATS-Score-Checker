@@ -1,0 +1,27 @@
+Full Stack Developer (MERN)
+Company: Cartwheel Commerce (fictional)  |  Location: Jaipur
+
+We are building a multi-vendor e-commerce platform and need someone comfortable across the stack.
+
+What you will do
+- Build backend APIs with Node.js and Express
+- Design MongoDB collections and aggregation pipelines
+- Build customer-facing features in React
+- Implement authentication (JWT) and payment integrations
+- Deploy and maintain services
+
+Requirements
+- 2+ years of full stack development
+- JavaScript
+- Node.js and Express.js
+- MongoDB
+- React
+- REST APIs
+- Git
+- Bachelor's degree in Computer Science / IT
+
+Nice to have
+- TypeScript
+- Docker
+- AWS
+- Redis

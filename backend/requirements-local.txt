@@ -1,0 +1,4 @@
+# Adds offline embeddings (sentence-transformers / all-MiniLM-L6-v2). Needed when EMBEDDING_PROVIDER=local
+# or when no GEMINI_API_KEY is set. Pulls in PyTorch (~700 MB CPU build).
+-r requirements.txt
+sentence-transformers>=3.0

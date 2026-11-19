@@ -1,0 +1,26 @@
+Operations Manager
+Company: Freshbasket (fictional grocery delivery)  |  Location: Bengaluru
+
+Run warehouse and last-mile operations for 4 dark stores.
+
+Responsibilities
+- Manage daily warehouse operations: inbound, inventory, picking and dispatch
+- Lead a team of 120 associates and 6 shift supervisors
+- Design SOPs and drive process improvement using Lean / Six Sigma
+- Manage vendors, 3PL partners and service-level agreements
+- Track KPIs (order fill rate, delivery time, cost per order) and own the operating budget
+
+Requirements
+- 6+ years in operations, at least 3 in a people-management role
+- Warehouse / supply-chain operations
+- Inventory management
+- Team leadership and workforce planning
+- Process improvement (Lean / Six Sigma)
+- Vendor management
+- KPI tracking and budgeting
+- Bachelor's degree; MBA in Operations preferred
+
+Nice to have
+- Six Sigma Green Belt
+- Quick-commerce or e-commerce experience
+- Advanced Excel

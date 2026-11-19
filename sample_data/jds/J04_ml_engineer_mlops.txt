@@ -1,0 +1,28 @@
+Machine Learning Engineer (MLOps)
+Company: Quanta Vision Labs (fictional)  |  Location: Pune / Hybrid
+
+You will take models from research notebooks to reliable production systems.
+
+Responsibilities
+- Build training and inference pipelines for deep learning models
+- Package and deploy models as scalable services (Docker, Kubernetes)
+- Track experiments and models with MLflow; set up model registry and monitoring
+- Build CI/CD for ML (automated training, testing and deployment)
+- Optimise model latency and cost on AWS (SageMaker, EC2, S3)
+
+Requirements
+- 3+ years in ML engineering or software engineering with ML deployment
+- Python
+- PyTorch or TensorFlow
+- MLflow or similar experiment tracking
+- Docker and Kubernetes
+- CI/CD
+- Model deployment / model serving
+- AWS
+- Bachelor's degree in Computer Science or Engineering
+
+Nice to have
+- Kubeflow
+- Apache Airflow
+- Feature stores
+- ONNX / TensorRT model optimisation

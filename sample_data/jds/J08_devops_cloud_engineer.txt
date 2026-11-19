@@ -1,0 +1,29 @@
+DevOps / Cloud Engineer
+Company: Stratus Cloudworks (fictional)  |  Location: Chennai / Hybrid
+
+Own our cloud infrastructure and the delivery pipelines for 40+ services.
+
+Responsibilities
+- Provision and manage AWS infrastructure as code with Terraform
+- Operate Kubernetes clusters (EKS) and Docker-based workloads
+- Build and maintain CI/CD pipelines (Jenkins, GitHub Actions)
+- Set up monitoring and alerting with Prometheus and Grafana
+- Automate operations with Bash and Python scripting; harden Linux servers
+
+Requirements
+- 3+ years in DevOps, SRE or cloud engineering
+- AWS
+- Terraform
+- Kubernetes
+- Docker
+- CI/CD (Jenkins or GitHub Actions)
+- Linux administration
+- Bash scripting
+- Prometheus / Grafana
+- Bachelor's degree in Computer Science, IT or related field
+
+Nice to have
+- Ansible
+- Helm
+- Python
+- AWS certification

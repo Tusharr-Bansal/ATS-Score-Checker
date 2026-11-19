@@ -1,0 +1,735 @@
+{
+  "jobs": {
+    "J01": {
+      "file": "J01_java_backend_engineer.txt",
+      "title": "Senior Backend Engineer (Java)",
+      "heldout": false
+    },
+    "J02": {
+      "file": "J02_python_backend_engineer.txt",
+      "title": "Backend Engineer (Python)",
+      "heldout": false
+    },
+    "J03": {
+      "file": "J03_data_scientist.txt",
+      "title": "Data Scientist",
+      "heldout": false
+    },
+    "J04": {
+      "file": "J04_ml_engineer_mlops.txt",
+      "title": "Machine Learning Engineer (MLOps)",
+      "heldout": false
+    },
+    "J05": {
+      "file": "J05_data_engineer.txt",
+      "title": "Data Engineer",
+      "heldout": false
+    },
+    "J06": {
+      "file": "J06_frontend_react_developer.txt",
+      "title": "Frontend Developer (React)",
+      "heldout": false
+    },
+    "J07": {
+      "file": "J07_fullstack_mern_developer.txt",
+      "title": "Full Stack Developer (MERN)",
+      "heldout": false
+    },
+    "J08": {
+      "file": "J08_devops_cloud_engineer.txt",
+      "title": "DevOps / Cloud Engineer",
+      "heldout": false
+    },
+    "J09": {
+      "file": "J09_nlp_genai_engineer.txt",
+      "title": "NLP / Generative AI Engineer",
+      "heldout": false
+    },
+    "J10": {
+      "file": "J10_data_analyst.txt",
+      "title": "Data Analyst",
+      "heldout": false
+    },
+    "J11": {
+      "file": "J11_digital_marketing_manager.txt",
+      "title": "Digital Marketing Manager",
+      "heldout": false
+    },
+    "J12": {
+      "file": "J12_content_marketing_specialist.txt",
+      "title": "Content Marketing Specialist",
+      "heldout": false
+    },
+    "J13": {
+      "file": "J13_sales_executive_b2b.txt",
+      "title": "Sales Executive (B2B)",
+      "heldout": false
+    },
+    "J14": {
+      "file": "J14_business_development_manager.txt",
+      "title": "Business Development Manager",
+      "heldout": false
+    },
+    "J15": {
+      "file": "J15_hr_generalist.txt",
+      "title": "HR Generalist",
+      "heldout": false
+    },
+    "J16": {
+      "file": "J16_talent_acquisition_specialist.txt",
+      "title": "Talent Acquisition Specialist",
+      "heldout": false
+    },
+    "J17": {
+      "file": "J17_operations_manager.txt",
+      "title": "Operations Manager",
+      "heldout": false
+    },
+    "J18": {
+      "file": "J18_project_manager.txt",
+      "title": "Project Manager",
+      "heldout": false
+    },
+    "J19": {
+      "file": "J19_accountant.txt",
+      "title": "Accountant",
+      "heldout": false
+    },
+    "J20": {
+      "file": "J20_financial_analyst.txt",
+      "title": "Financial Analyst",
+      "heldout": false
+    },
+    "J21": {
+      "file": "J21_phlebotomist.txt",
+      "title": "Phlebotomist",
+      "heldout": true
+    },
+    "J22": {
+      "file": "J22_pastry_chef.txt",
+      "title": "Pastry Chef",
+      "heldout": true
+    },
+    "J23": {
+      "file": "J23_paralegal.txt",
+      "title": "Paralegal",
+      "heldout": true
+    }
+  },
+  "adjacent": {
+    "J01": [
+      "J02"
+    ],
+    "J02": [
+      "J01",
+      "J07"
+    ],
+    "J03": [
+      "J04",
+      "J09",
+      "J10"
+    ],
+    "J04": [
+      "J03",
+      "J08",
+      "J09"
+    ],
+    "J05": [
+      "J10",
+      "J03"
+    ],
+    "J06": [
+      "J07"
+    ],
+    "J07": [
+      "J06",
+      "J02"
+    ],
+    "J08": [
+      "J04"
+    ],
+    "J09": [
+      "J03",
+      "J04"
+    ],
+    "J10": [
+      "J03",
+      "J05",
+      "J20"
+    ],
+    "J11": [
+      "J12"
+    ],
+    "J12": [
+      "J11"
+    ],
+    "J13": [
+      "J14"
+    ],
+    "J14": [
+      "J13"
+    ],
+    "J15": [
+      "J16"
+    ],
+    "J16": [
+      "J15"
+    ],
+    "J17": [
+      "J18"
+    ],
+    "J18": [
+      "J17"
+    ],
+    "J19": [
+      "J20"
+    ],
+    "J20": [
+      "J19",
+      "J10"
+    ],
+    "J21": [],
+    "J22": [],
+    "J23": []
+  },
+  "resumes": {
+    "resume_01.pdf": {
+      "id": "R01",
+      "role": "J01",
+      "level": "strong",
+      "name": "Arjun Mehta",
+      "adjacent": []
+    },
+    "resume_02.docx": {
+      "id": "R02",
+      "role": "J01",
+      "level": "mid",
+      "name": "Kavya Raman",
+      "adjacent": []
+    },
+    "resume_03.pdf": {
+      "id": "R03",
+      "role": "J01",
+      "level": "junior",
+      "name": "Rohan Das",
+      "adjacent": []
+    },
+    "resume_04.docx": {
+      "id": "R04",
+      "role": "J02",
+      "level": "strong",
+      "name": "Sneha Kulkarni",
+      "adjacent": []
+    },
+    "resume_05.pdf": {
+      "id": "R05",
+      "role": "J02",
+      "level": "mid",
+      "name": "Imran Shaikh",
+      "adjacent": []
+    },
+    "resume_06.docx": {
+      "id": "R06",
+      "role": "J02",
+      "level": "junior",
+      "name": "Priya Nair",
+      "adjacent": []
+    },
+    "resume_07.pdf": {
+      "id": "R07",
+      "role": "J03",
+      "level": "strong",
+      "name": "Ananya Iyer",
+      "adjacent": []
+    },
+    "resume_08.docx": {
+      "id": "R08",
+      "role": "J03",
+      "level": "mid",
+      "name": "Vikram Joshi",
+      "adjacent": []
+    },
+    "resume_09.pdf": {
+      "id": "R09",
+      "role": "J03",
+      "level": "junior",
+      "name": "Meera Pillai",
+      "adjacent": []
+    },
+    "resume_10.docx": {
+      "id": "R10",
+      "role": "J04",
+      "level": "strong",
+      "name": "Siddharth Rao",
+      "adjacent": []
+    },
+    "resume_11.pdf": {
+      "id": "R11",
+      "role": "J04",
+      "level": "mid",
+      "name": "Neha Gupta",
+      "adjacent": []
+    },
+    "resume_12.docx": {
+      "id": "R12",
+      "role": "J04",
+      "level": "junior",
+      "name": "Aditya Verma",
+      "adjacent": []
+    },
+    "resume_13.pdf": {
+      "id": "R13",
+      "role": "J05",
+      "level": "strong",
+      "name": "Rahul Khanna",
+      "adjacent": []
+    },
+    "resume_14.docx": {
+      "id": "R14",
+      "role": "J05",
+      "level": "mid",
+      "name": "Divya Menon",
+      "adjacent": []
+    },
+    "resume_15.pdf": {
+      "id": "R15",
+      "role": "J05",
+      "level": "junior",
+      "name": "Karan Malhotra",
+      "adjacent": []
+    },
+    "resume_16.docx": {
+      "id": "R16",
+      "role": "J06",
+      "level": "strong",
+      "name": "Ishita Bose",
+      "adjacent": []
+    },
+    "resume_17.pdf": {
+      "id": "R17",
+      "role": "J06",
+      "level": "mid",
+      "name": "Aman Sethi",
+      "adjacent": []
+    },
+    "resume_18.docx": {
+      "id": "R18",
+      "role": "J06",
+      "level": "junior",
+      "name": "Tanvi Shah",
+      "adjacent": []
+    },
+    "resume_19.pdf": {
+      "id": "R19",
+      "role": "J07",
+      "level": "strong",
+      "name": "Nikhil Agarwal",
+      "adjacent": []
+    },
+    "resume_20.docx": {
+      "id": "R20",
+      "role": "J07",
+      "level": "mid",
+      "name": "Pooja Yadav",
+      "adjacent": []
+    },
+    "resume_21.pdf": {
+      "id": "R21",
+      "role": "J07",
+      "level": "junior",
+      "name": "Harsh Vardhan",
+      "adjacent": []
+    },
+    "resume_22.docx": {
+      "id": "R22",
+      "role": "J08",
+      "level": "strong",
+      "name": "Manish Tiwari",
+      "adjacent": []
+    },
+    "resume_23.pdf": {
+      "id": "R23",
+      "role": "J08",
+      "level": "mid",
+      "name": "Ritika Saxena",
+      "adjacent": []
+    },
+    "resume_24.docx": {
+      "id": "R24",
+      "role": "J08",
+      "level": "junior",
+      "name": "Varun Bhatt",
+      "adjacent": []
+    },
+    "resume_25.pdf": {
+      "id": "R25",
+      "role": "J09",
+      "level": "strong",
+      "name": "Aditi Sharma",
+      "adjacent": []
+    },
+    "resume_26.docx": {
+      "id": "R26",
+      "role": "J09",
+      "level": "mid",
+      "name": "Farhan Qureshi",
+      "adjacent": []
+    },
+    "resume_27.pdf": {
+      "id": "R27",
+      "role": "J09",
+      "level": "junior",
+      "name": "Sanya Kapoor",
+      "adjacent": []
+    },
+    "resume_28.docx": {
+      "id": "R28",
+      "role": "J10",
+      "level": "strong",
+      "name": "Neeraj Chauhan",
+      "adjacent": []
+    },
+    "resume_29.pdf": {
+      "id": "R29",
+      "role": "J10",
+      "level": "mid",
+      "name": "Shruti Desai",
+      "adjacent": []
+    },
+    "resume_30.docx": {
+      "id": "R30",
+      "role": "J10",
+      "level": "junior",
+      "name": "Mohit Jain",
+      "adjacent": []
+    },
+    "resume_31.pdf": {
+      "id": "R31",
+      "role": "J11",
+      "level": "strong",
+      "name": "Riya Malhotra",
+      "adjacent": []
+    },
+    "resume_32.docx": {
+      "id": "R32",
+      "role": "J11",
+      "level": "mid",
+      "name": "Karthik Subramanian",
+      "adjacent": []
+    },
+    "resume_33.pdf": {
+      "id": "R33",
+      "role": "J11",
+      "level": "junior",
+      "name": "Ananya Ghosh",
+      "adjacent": []
+    },
+    "resume_34.docx": {
+      "id": "R34",
+      "role": "J12",
+      "level": "strong",
+      "name": "Nandini Rao",
+      "adjacent": []
+    },
+    "resume_35.pdf": {
+      "id": "R35",
+      "role": "J12",
+      "level": "mid",
+      "name": "Saurabh Mishra",
+      "adjacent": []
+    },
+    "resume_36.docx": {
+      "id": "R36",
+      "role": "J12",
+      "level": "junior",
+      "name": "Fatima Sheikh",
+      "adjacent": []
+    },
+    "resume_37.pdf": {
+      "id": "R37",
+      "role": "J13",
+      "level": "strong",
+      "name": "Mitesh Patel",
+      "adjacent": []
+    },
+    "resume_38.docx": {
+      "id": "R38",
+      "role": "J13",
+      "level": "mid",
+      "name": "Deepak Yadav",
+      "adjacent": []
+    },
+    "resume_39.pdf": {
+      "id": "R39",
+      "role": "J13",
+      "level": "junior",
+      "name": "Pallavi Joshi",
+      "adjacent": []
+    },
+    "resume_40.docx": {
+      "id": "R40",
+      "role": "J14",
+      "level": "strong",
+      "name": "Vivek Chaturvedi",
+      "adjacent": []
+    },
+    "resume_41.pdf": {
+      "id": "R41",
+      "role": "J14",
+      "level": "mid",
+      "name": "Sonal Arora",
+      "adjacent": []
+    },
+    "resume_42.docx": {
+      "id": "R42",
+      "role": "J14",
+      "level": "junior",
+      "name": "Rahul Bhardwaj",
+      "adjacent": []
+    },
+    "resume_43.docx": {
+      "id": "R43",
+      "role": "J15",
+      "level": "strong",
+      "name": "Meenakshi Kulkarni",
+      "adjacent": []
+    },
+    "resume_44.pdf": {
+      "id": "R44",
+      "role": "J15",
+      "level": "mid",
+      "name": "Arvind Nair",
+      "adjacent": []
+    },
+    "resume_45.docx": {
+      "id": "R45",
+      "role": "J15",
+      "level": "junior",
+      "name": "Sneha Reddy",
+      "adjacent": []
+    },
+    "resume_46.pdf": {
+      "id": "R46",
+      "role": "J16",
+      "level": "strong",
+      "name": "Kunal Sharma",
+      "adjacent": []
+    },
+    "resume_47.docx": {
+      "id": "R47",
+      "role": "J16",
+      "level": "mid",
+      "name": "Divya Saxena",
+      "adjacent": []
+    },
+    "resume_48.pdf": {
+      "id": "R48",
+      "role": "J16",
+      "level": "junior",
+      "name": "Akash Verma",
+      "adjacent": []
+    },
+    "resume_49.docx": {
+      "id": "R49",
+      "role": "J17",
+      "level": "strong",
+      "name": "Suresh Iyer",
+      "adjacent": []
+    },
+    "resume_50.pdf": {
+      "id": "R50",
+      "role": "J17",
+      "level": "mid",
+      "name": "Prakash Rawat",
+      "adjacent": []
+    },
+    "resume_51.docx": {
+      "id": "R51",
+      "role": "J17",
+      "level": "junior",
+      "name": "Neha Choudhary",
+      "adjacent": []
+    },
+    "resume_52.pdf": {
+      "id": "R52",
+      "role": "J18",
+      "level": "strong",
+      "name": "Anil Deshpande",
+      "adjacent": []
+    },
+    "resume_53.docx": {
+      "id": "R53",
+      "role": "J18",
+      "level": "mid",
+      "name": "Rashmi Bhatia",
+      "adjacent": []
+    },
+    "resume_54.pdf": {
+      "id": "R54",
+      "role": "J18",
+      "level": "junior",
+      "name": "Gaurav Singh",
+      "adjacent": []
+    },
+    "resume_55.docx": {
+      "id": "R55",
+      "role": "J19",
+      "level": "strong",
+      "name": "Ramesh Agarwal",
+      "adjacent": []
+    },
+    "resume_56.pdf": {
+      "id": "R56",
+      "role": "J19",
+      "level": "mid",
+      "name": "Pooja Khandelwal",
+      "adjacent": []
+    },
+    "resume_57.docx": {
+      "id": "R57",
+      "role": "J19",
+      "level": "junior",
+      "name": "Sunil Meena",
+      "adjacent": []
+    },
+    "resume_58.docx": {
+      "id": "R58",
+      "role": "J20",
+      "level": "strong",
+      "name": "Ishaan Kapoor",
+      "adjacent": []
+    },
+    "resume_59.pdf": {
+      "id": "R59",
+      "role": "J20",
+      "level": "mid",
+      "name": "Aditi Jain",
+      "adjacent": []
+    },
+    "resume_60.docx": {
+      "id": "R60",
+      "role": "J20",
+      "level": "junior",
+      "name": "Varun Mehta",
+      "adjacent": []
+    },
+    "resume_61.pdf": {
+      "id": "R61",
+      "role": "NONE",
+      "level": "none",
+      "name": "Lakshmi Menon",
+      "adjacent": [
+        "J21"
+      ]
+    },
+    "resume_62.docx": {
+      "id": "R62",
+      "role": "NONE",
+      "level": "none",
+      "name": "Sunita Rathore",
+      "adjacent": []
+    },
+    "resume_63.pdf": {
+      "id": "R63",
+      "role": "NONE",
+      "level": "none",
+      "name": "Joseph D'Souza",
+      "adjacent": [
+        "J22"
+      ]
+    },
+    "resume_64.docx": {
+      "id": "R64",
+      "role": "NONE",
+      "level": "none",
+      "name": "Priyanka Sood",
+      "adjacent": [
+        "J23"
+      ]
+    },
+    "resume_65.pdf": {
+      "id": "R65",
+      "role": "NONE",
+      "level": "none",
+      "name": "Harish Gowda",
+      "adjacent": []
+    },
+    "resume_66.docx": {
+      "id": "R66",
+      "role": "NONE",
+      "level": "none",
+      "name": "Farah Khan",
+      "adjacent": []
+    },
+    "resume_67.pdf": {
+      "id": "R67",
+      "role": "NONE",
+      "level": "none",
+      "name": "Rohit Bhattacharya",
+      "adjacent": []
+    },
+    "resume_68.docx": {
+      "id": "R68",
+      "role": "NONE",
+      "level": "none",
+      "name": "Tenzin Dolma",
+      "adjacent": []
+    },
+    "resume_69.pdf": {
+      "id": "R69",
+      "role": "NONE",
+      "level": "none",
+      "name": "Manoj Kumar",
+      "adjacent": []
+    },
+    "resume_70.docx": {
+      "id": "R70",
+      "role": "NONE",
+      "level": "none",
+      "name": "Abhishek Thakur",
+      "adjacent": []
+    },
+    "resume_71.pdf": {
+      "id": "R71",
+      "role": "J21",
+      "level": "strong",
+      "name": "Rekha Saini",
+      "adjacent": []
+    },
+    "resume_72.docx": {
+      "id": "R72",
+      "role": "J21",
+      "level": "mid",
+      "name": "Imtiyaz Ali",
+      "adjacent": []
+    },
+    "resume_73.docx": {
+      "id": "R73",
+      "role": "J22",
+      "level": "strong",
+      "name": "Celine Fernandes",
+      "adjacent": []
+    },
+    "resume_74.pdf": {
+      "id": "R74",
+      "role": "J22",
+      "level": "mid",
+      "name": "Arjun Pillai",
+      "adjacent": []
+    },
+    "resume_75.docx": {
+      "id": "R75",
+      "role": "J23",
+      "level": "strong",
+      "name": "Nidhi Aggarwal",
+      "adjacent": []
+    },
+    "resume_76.pdf": {
+      "id": "R76",
+      "role": "J23",
+      "level": "mid",
+      "name": "Rohan Tiwari",
+      "adjacent": []
+    }
+  }
+}

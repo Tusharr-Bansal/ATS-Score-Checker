@@ -1,0 +1,25 @@
+Project Manager
+Company: Clearview Infra Consultants (fictional)  |  Location: Delhi NCR
+
+Deliver client projects on time, on budget and to scope.
+
+Responsibilities
+- Plan projects: scope, schedule (MS Project), resources and budget
+- Run status meetings and report progress to client stakeholders
+- Identify and manage risks, issues and change requests
+- Coordinate cross-functional teams and subcontractors
+- Close projects and capture lessons learned
+
+Requirements
+- 5+ years of project management experience
+- Project planning and scheduling (MS Project or Primavera)
+- Stakeholder management and client communication
+- Risk management
+- Budgeting and cost control
+- Cross-functional team coordination
+- PMP or PRINCE2 certification
+- Bachelor's degree in Engineering or Management
+
+Nice to have
+- Agile / Scrum
+- Infrastructure or construction projects

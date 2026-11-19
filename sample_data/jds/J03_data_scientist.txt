@@ -1,0 +1,26 @@
+Data Scientist
+Company: Meridian Retail Analytics (fictional)  |  Location: Gurugram
+
+The team builds models for demand forecasting, customer churn and pricing.
+
+Responsibilities
+- Explore large datasets and build predictive models (classification, regression, forecasting)
+- Design and analyse A/B tests and experiments with sound statistical methods
+- Engineer features using Python, pandas and SQL
+- Communicate findings to business stakeholders with clear visualisations
+- Work with engineers to move models towards production
+
+Requirements
+- 3+ years of experience in data science or applied machine learning
+- Python, pandas, NumPy, scikit-learn
+- Strong statistics and hypothesis testing
+- Machine learning (supervised learning, model evaluation)
+- SQL
+- Data visualisation (Matplotlib, Seaborn or similar)
+- Master's degree in Statistics, Mathematics, Computer Science or another quantitative field
+
+Preferred
+- XGBoost / LightGBM
+- Time-series forecasting
+- Deep learning
+- Tableau

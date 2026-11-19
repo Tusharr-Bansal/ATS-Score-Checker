@@ -1,0 +1,29 @@
+NLP / Generative AI Engineer
+Company: Lexicon AI (fictional)  |  Location: Bengaluru
+
+Build LLM-powered products: document question answering, summarisation and agents.
+
+Responsibilities
+- Build retrieval-augmented generation (RAG) pipelines over enterprise documents
+- Work with LLMs via APIs and open-source models (Hugging Face Transformers)
+- Design embeddings, chunking strategies and vector search (FAISS, Pinecone, Chroma)
+- Fine-tune transformer models for classification and extraction
+- Build evaluation sets and measure answer quality and hallucination
+
+Requirements
+- 2+ years of experience in NLP or applied ML
+- Python
+- NLP fundamentals
+- Hugging Face Transformers
+- Large language models (LLMs) and prompt engineering
+- RAG
+- LangChain or LlamaIndex
+- Vector databases
+- PyTorch
+- Bachelor's degree in Computer Science or related field
+
+Nice to have
+- Fine-tuning with LoRA / PEFT
+- FastAPI
+- LLM evaluation
+- spaCy

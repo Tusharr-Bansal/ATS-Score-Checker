@@ -1,0 +1,407 @@
+{
+ "_doc": "Hand-labelled skill-level ground truth. 'requirement' is a |-separated keyword list matched (case-insensitive substring) against the extracted JD requirement name and its alternatives.",
+ "labels": [
+  {
+   "jd": "J21",
+   "resume": "resume_71.pdf",
+   "requirement": "venipuncture",
+   "met": true
+  },
+  {
+   "jd": "J21",
+   "resume": "resume_71.pdf",
+   "requirement": "capillary|finger",
+   "met": true
+  },
+  {
+   "jd": "J21",
+   "resume": "resume_71.pdf",
+   "requirement": "order of draw",
+   "met": true
+  },
+  {
+   "jd": "J21",
+   "resume": "resume_71.pdf",
+   "requirement": "identification",
+   "met": true
+  },
+  {
+   "jd": "J21",
+   "resume": "resume_71.pdf",
+   "requirement": "infection|biohazard",
+   "met": true
+  },
+  {
+   "jd": "J21",
+   "resume": "resume_71.pdf",
+   "requirement": "laboratory information|lis",
+   "met": true
+  },
+  {
+   "jd": "J21",
+   "resume": "resume_72.docx",
+   "requirement": "venipuncture",
+   "met": true
+  },
+  {
+   "jd": "J21",
+   "resume": "resume_72.docx",
+   "requirement": "capillary|finger",
+   "met": false
+  },
+  {
+   "jd": "J21",
+   "resume": "resume_72.docx",
+   "requirement": "order of draw",
+   "met": false
+  },
+  {
+   "jd": "J21",
+   "resume": "resume_72.docx",
+   "requirement": "laboratory information|lis",
+   "met": false
+  },
+  {
+   "jd": "J21",
+   "resume": "resume_61.pdf",
+   "requirement": "venipuncture",
+   "met": false
+  },
+  {
+   "jd": "J21",
+   "resume": "resume_61.pdf",
+   "requirement": "capillary|finger",
+   "met": false
+  },
+  {
+   "jd": "J21",
+   "resume": "resume_61.pdf",
+   "requirement": "order of draw",
+   "met": false
+  },
+  {
+   "jd": "J21",
+   "resume": "resume_61.pdf",
+   "requirement": "laboratory information|lis",
+   "met": false
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_73.docx",
+   "requirement": "viennoiserie",
+   "met": true
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_73.docx",
+   "requirement": "laminat",
+   "met": true
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_73.docx",
+   "requirement": "temper",
+   "met": true
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_73.docx",
+   "requirement": "plated",
+   "met": true
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_73.docx",
+   "requirement": "costing|food cost",
+   "met": true
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_73.docx",
+   "requirement": "food safety|haccp",
+   "met": true
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_74.pdf",
+   "requirement": "viennoiserie",
+   "met": false
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_74.pdf",
+   "requirement": "laminat",
+   "met": true
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_74.pdf",
+   "requirement": "temper",
+   "met": false
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_74.pdf",
+   "requirement": "plated",
+   "met": false
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_74.pdf",
+   "requirement": "costing|food cost",
+   "met": false
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_63.pdf",
+   "requirement": "viennoiserie",
+   "met": false
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_63.pdf",
+   "requirement": "laminat",
+   "met": false
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_63.pdf",
+   "requirement": "temper",
+   "met": false
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_63.pdf",
+   "requirement": "plated",
+   "met": false
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_63.pdf",
+   "requirement": "costing|food cost",
+   "met": true
+  },
+  {
+   "jd": "J22",
+   "resume": "resume_63.pdf",
+   "requirement": "food safety|haccp",
+   "met": true
+  },
+  {
+   "jd": "J23",
+   "resume": "resume_75.docx",
+   "requirement": "legal research|research",
+   "met": true
+  },
+  {
+   "jd": "J23",
+   "resume": "resume_75.docx",
+   "requirement": "drafting|pleading",
+   "met": true
+  },
+  {
+   "jd": "J23",
+   "resume": "resume_75.docx",
+   "requirement": "e-filing|efiling",
+   "met": true
+  },
+  {
+   "jd": "J23",
+   "resume": "resume_75.docx",
+   "requirement": "docket|deadline|calendar",
+   "met": true
+  },
+  {
+   "jd": "J23",
+   "resume": "resume_75.docx",
+   "requirement": "case file",
+   "met": true
+  },
+  {
+   "jd": "J23",
+   "resume": "resume_76.pdf",
+   "requirement": "legal research|research",
+   "met": false
+  },
+  {
+   "jd": "J23",
+   "resume": "resume_76.pdf",
+   "requirement": "drafting|pleading",
+   "met": false
+  },
+  {
+   "jd": "J23",
+   "resume": "resume_76.pdf",
+   "requirement": "e-filing|efiling",
+   "met": false
+  },
+  {
+   "jd": "J23",
+   "resume": "resume_76.pdf",
+   "requirement": "case file",
+   "met": false
+  },
+  {
+   "jd": "J23",
+   "resume": "resume_64.docx",
+   "requirement": "legal research|research",
+   "met": true
+  },
+  {
+   "jd": "J23",
+   "resume": "resume_64.docx",
+   "requirement": "drafting|pleading",
+   "met": true
+  },
+  {
+   "jd": "J23",
+   "resume": "resume_64.docx",
+   "requirement": "e-filing|efiling",
+   "met": false
+  },
+  {
+   "jd": "J23",
+   "resume": "resume_64.docx",
+   "requirement": "docket|deadline|calendar",
+   "met": false
+  },
+  {
+   "jd": "J01",
+   "resume": "resume_04.docx",
+   "requirement": "java",
+   "met": false
+  },
+  {
+   "jd": "J01",
+   "resume": "resume_04.docx",
+   "requirement": "spring",
+   "met": false
+  },
+  {
+   "jd": "J01",
+   "resume": "resume_04.docx",
+   "requirement": "kafka",
+   "met": false
+  },
+  {
+   "jd": "J01",
+   "resume": "resume_04.docx",
+   "requirement": "postgres",
+   "met": true
+  },
+  {
+   "jd": "J01",
+   "resume": "resume_04.docx",
+   "requirement": "docker",
+   "met": true
+  },
+  {
+   "jd": "J01",
+   "resume": "resume_03.pdf",
+   "requirement": "java",
+   "met": true
+  },
+  {
+   "jd": "J01",
+   "resume": "resume_03.pdf",
+   "requirement": "spring",
+   "met": true
+  },
+  {
+   "jd": "J01",
+   "resume": "resume_03.pdf",
+   "requirement": "kafka",
+   "met": false
+  },
+  {
+   "jd": "J01",
+   "resume": "resume_03.pdf",
+   "requirement": "docker",
+   "met": false
+  },
+  {
+   "jd": "J10",
+   "resume": "resume_07.pdf",
+   "requirement": "sql",
+   "met": true
+  },
+  {
+   "jd": "J10",
+   "resume": "resume_07.pdf",
+   "requirement": "excel",
+   "met": false
+  },
+  {
+   "jd": "J10",
+   "resume": "resume_07.pdf",
+   "requirement": "power bi|tableau",
+   "met": true
+  },
+  {
+   "jd": "J10",
+   "resume": "resume_07.pdf",
+   "requirement": "python",
+   "met": true
+  },
+  {
+   "jd": "J20",
+   "resume": "resume_28.docx",
+   "requirement": "financial model",
+   "met": false
+  },
+  {
+   "jd": "J20",
+   "resume": "resume_28.docx",
+   "requirement": "valuation|dcf",
+   "met": false
+  },
+  {
+   "jd": "J20",
+   "resume": "resume_28.docx",
+   "requirement": "excel",
+   "met": true
+  },
+  {
+   "jd": "J13",
+   "resume": "resume_39.pdf",
+   "requirement": "cold call|lead generation",
+   "met": true
+  },
+  {
+   "jd": "J13",
+   "resume": "resume_39.pdf",
+   "requirement": "crm|salesforce",
+   "met": false
+  },
+  {
+   "jd": "J13",
+   "resume": "resume_39.pdf",
+   "requirement": "negotiat",
+   "met": false
+  },
+  {
+   "jd": "J06",
+   "resume": "resume_19.pdf",
+   "requirement": "react",
+   "met": true
+  },
+  {
+   "jd": "J06",
+   "resume": "resume_19.pdf",
+   "requirement": "typescript",
+   "met": true
+  },
+  {
+   "jd": "J06",
+   "resume": "resume_19.pdf",
+   "requirement": "redux",
+   "met": true
+  },
+  {
+   "jd": "J06",
+   "resume": "resume_19.pdf",
+   "requirement": "jest",
+   "met": false
+  }
+ ]
+}

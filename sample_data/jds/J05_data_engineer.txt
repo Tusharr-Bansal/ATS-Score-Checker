@@ -1,0 +1,27 @@
+Data Engineer
+Company: Lattice Logistics (fictional)  |  Location: Hyderabad
+
+Own the pipelines that move shipment data from operational systems into our warehouse.
+
+Responsibilities
+- Build batch and streaming ETL/ELT pipelines
+- Develop Spark jobs to process terabytes of event data
+- Orchestrate workflows with Apache Airflow
+- Model data in the warehouse (Snowflake / BigQuery) and build dbt transformations
+- Ensure data quality, lineage and monitoring
+
+Requirements
+- 3+ years of data engineering experience
+- Python and SQL
+- Apache Spark (PySpark)
+- Apache Airflow
+- Kafka or another streaming platform
+- ETL / ELT pipeline design
+- Data warehousing (Snowflake, BigQuery or Redshift)
+- dbt
+- Bachelor's degree in Computer Science or related field
+
+Nice to have
+- AWS (Glue, EMR, S3)
+- Scala
+- Databricks

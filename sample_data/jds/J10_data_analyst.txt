@@ -1,0 +1,26 @@
+Data Analyst
+Company: Orchard Consumer Goods (fictional)  |  Location: Delhi NCR
+
+Turn sales and marketing data into decisions for category managers.
+
+Responsibilities
+- Write SQL queries to pull and clean data from the warehouse
+- Build and maintain dashboards in Power BI and Tableau
+- Analyse sales trends, campaign performance and customer segments
+- Prepare weekly business reports and present insights to stakeholders
+- Support A/B test readouts with basic statistical analysis
+
+Requirements
+- 1+ years of experience as a data or business analyst
+- SQL
+- Advanced Excel (pivot tables, VLOOKUP)
+- Power BI or Tableau
+- Data visualisation and dashboarding
+- Basic statistics
+- Python (pandas) for analysis
+- Bachelor's degree in any quantitative discipline (Statistics, Economics, Engineering, Commerce)
+
+Nice to have
+- A/B testing
+- Stakeholder communication
+- Google Analytics

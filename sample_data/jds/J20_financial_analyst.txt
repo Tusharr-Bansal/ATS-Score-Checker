@@ -1,0 +1,25 @@
+Financial Analyst
+Company: Brightpath Capital (fictional)  |  Location: Mumbai
+
+Support the CFO office with planning, analysis and investment decisions.
+
+Responsibilities
+- Build and maintain financial models for budgeting and forecasting
+- Run monthly variance analysis against budget and explain drivers
+- Prepare valuation analyses (DCF, comparables) for investment proposals
+- Build management dashboards and board presentations
+- Analyse unit economics and profitability by business line
+
+Requirements
+- 2+ years in FP&A, corporate finance or equity research
+- Financial modelling
+- Budgeting and forecasting
+- Variance analysis
+- Valuation (DCF, comparable companies)
+- Advanced Excel
+- PowerPoint presentations
+- MBA in Finance, CA or CFA
+
+Nice to have
+- Power BI or Tableau
+- SQL

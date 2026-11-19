@@ -1,0 +1,95 @@
+"""Background processing of uploaded resume batches."""
+from __future__ import annotations
+
+import asyncio
+import logging
+
+from sqlalchemy import select
+
+from . import extraction, llm, llm_match
+from .config import settings
+from .db import Candidate, Job, SessionLocal
+from .embeddings import get_embedder
+from .matching import prepare_job, prewarm, score_candidate
+from .schemas import JDData, ResumeData
+
+log = logging.getLogger("atsscore.services")
+
+
+def _cached_extraction(db, content_hash: str, exclude_id: int):
+    """Reuse a previous extraction of the identical file (saves Gemini calls on re-uploads)."""
+    return db.scalar(select(Candidate).where(Candidate.content_hash == content_hash, Candidate.status == "done",
+                                             Candidate.id != exclude_id).limit(1))
+
+
+async def _extract_one(cid: int) -> None:
+    with SessionLocal() as db:
+        c = db.get(Candidate, cid)
+        c.status = "processing"
+        db.commit()
+        prev = _cached_extraction(db, c.content_hash, c.id)
+        if prev and prev.data:
+            c.data, c.extractor = prev.data, prev.extractor
+            db.commit()
+            return
+        text = c.raw_text
+    try:
+        data, src = await extraction.extract_resume(text)
+        with SessionLocal() as db:
+            c = db.get(Candidate, cid)
+            c.data, c.extractor = data.model_dump(), src
+            db.commit()
+    except Exception as e:
+        log.exception("extraction failed for candidate %s", cid)
+        with SessionLocal() as db:
+            c = db.get(Candidate, cid)
+            c.status, c.error = "error", f"Extraction failed: {e}"
+            db.commit()
+
+
+def _score_all(job_id: int, cand_ids: list[int], verdicts: dict | None = None) -> None:
+    emb = get_embedder()
+    with SessionLocal() as db:
+        job = db.get(Job, job_id)
+        ctx = prepare_job(JDData.model_validate(job.data), emb)
+        cands = [db.get(Candidate, cid) for cid in cand_ids]
+        try:
+            prewarm(emb, [ResumeData.model_validate(c.data) for c in cands if c.data and c.status != "error"])
+        except Exception:
+            log.exception("batch embedding failed; falling back to per-candidate embedding")
+        for cid in cand_ids:
+            c = db.get(Candidate, cid)
+            if c.status == "error" or not c.data:
+                continue
+            try:
+                r = score_candidate(ctx, ResumeData.model_validate(c.data), c.raw_text, emb,
+                                    verdicts=(verdicts or {}).get(str(cid)))
+                c.score, c.result, c.status = r["score"], r, "done"
+            except Exception as e:
+                log.exception("scoring failed for candidate %s", cid)
+                c.status, c.error = "error", f"Scoring failed: {e}"
+            db.commit()
+
+
+async def _judge_skills(job_id: int, cand_ids: list[int]) -> dict:
+    """LLM-led skill verdicts for the whole batch (a few Gemini calls, not one per candidate)."""
+    if settings.skill_matcher != "llm" or not llm.available():
+        return {}
+    with SessionLocal() as db:
+        jd = JDData.model_validate(db.get(Job, job_id).data)
+        items = [(str(c.id), c.raw_text) for c in (db.get(Candidate, cid) for cid in cand_ids)
+                 if c.status != "error" and c.data]
+    try:
+        return await llm_match.match_batch(jd, items)
+    except Exception:
+        log.exception("LLM skill matching failed; scoring with the taxonomy matcher")
+        return {}
+
+
+async def process_batch(job_id: int, cand_ids: list[int]) -> None:
+    # 1) LLM/rule extraction, concurrently (Gemini concurrency and pacing are handled in llm.py)
+    await asyncio.gather(*(_extract_one(cid) for cid in cand_ids))
+    # 2) LLM-led skill verdicts with verified quotes (falls back to taxonomy per candidate)
+    verdicts = await _judge_skills(job_id, cand_ids)
+    # 3) embeddings + scoring (CPU / sync API) off the event loop
+    await asyncio.to_thread(_score_all, job_id, cand_ids, verdicts)

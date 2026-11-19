@@ -1,0 +1,27 @@
+Frontend Developer (React)
+Company: Pixelharbor Studio (fictional)  |  Location: Mumbai / Remote
+
+Build fast, accessible web interfaces for a design-collaboration product.
+
+Responsibilities
+- Develop responsive UI components with React and TypeScript
+- Manage application state with Redux
+- Integrate REST APIs and handle loading/error states well
+- Write unit tests with Jest and React Testing Library
+- Work closely with designers to translate Figma designs into pixel-perfect pages
+
+Requirements
+- 2+ years of frontend development experience
+- JavaScript (ES6+) and TypeScript
+- React
+- Redux or similar state management
+- HTML5 and CSS3 (responsive design)
+- REST API integration
+- Jest / React Testing Library
+- Bachelor's degree in Computer Science or equivalent practical experience
+
+Nice to have
+- Next.js
+- Tailwind CSS
+- Web accessibility (WCAG)
+- Figma

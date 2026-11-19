@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ats
+      POSTGRES_PASSWORD: ats
+      POSTGRES_DB: atsscore
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ats -d atsscore"]
+      interval: 3s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      args:
+        # true = offline embeddings available (no Gemini key needed); false = smaller image
+        WITH_LOCAL_EMBEDDINGS: "${WITH_LOCAL_EMBEDDINGS:-false}"
+    env_file: [./backend/.env]
+    environment:
+      DATABASE_URL: postgresql://ats:ats@db:5432/atsscore
+    depends_on:
+      db: { condition: service_healthy }
+    ports: ["8000:8000"]
+
+  frontend:
+    build: ./frontend
+    depends_on: [backend]
+    ports: ["3000:80"]
+
+volumes:
+  pgdata:
