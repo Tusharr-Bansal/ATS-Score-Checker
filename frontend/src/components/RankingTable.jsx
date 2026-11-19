@@ -1,3 +1,5 @@
+const STAGE_LABEL = { queued: "queued", processing: "reading", extracted: "read", matching: "matching" };
+
 export function scoreClass(s) {
   if (s == null) return "";
   return s >= 75 ? "s-strong" : s >= 60 ? "s-good" : s >= 40 ? "s-partial" : "s-weak";
@@ -46,7 +48,7 @@ export default function RankingTable({ ranking, job, onSelect, selectedId }) {
                 ) : c.status === "error" ? (
                   <span className="err" title={c.error}>Error</span>
                 ) : (
-                  <span className="pill busy">{c.status}</span>
+                  <span className="pill busy">{STAGE_LABEL[c.status] || c.status}</span>
                 )}
               </td>
               <td className="skills-cell">

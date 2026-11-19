@@ -8,6 +8,7 @@
 """
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import logging
 
@@ -19,7 +20,7 @@ from . import extraction, llm
 from .config import settings
 from .db import Candidate, Job, SessionLocal, init_db
 from .parsing import ParseError, extract_text
-from .services import process_batch
+from .services import process_batch, resume_interrupted
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
 app = FastAPI(title="CheckRes — AI Resume Matching & Ranking", version="1.0.0")
@@ -27,8 +28,9 @@ app.add_middleware(CORSMiddleware, allow_origins=settings.cors_origins, allow_me
 
 
 @app.on_event("startup")
-def _startup():
+async def _startup():
     init_db()
+    asyncio.create_task(resume_interrupted())  # finish batches cut off by a restart or redeploy
 
 
 @app.get("/api/health")
@@ -72,6 +74,19 @@ def list_jobs():
         rows = db.execute(select(Job, func.count(Candidate.id)).outerjoin(Candidate)
                           .group_by(Job.id).order_by(Job.created_at.desc())).all()
         return [{**_job_out(j, n), "raw_text": None} for j, n in rows]
+
+
+@app.delete("/api/jobs/{job_id}")
+def delete_job(job_id: int):
+    """Delete a job and all its candidates (demo housekeeping; there are no user accounts)."""
+    with SessionLocal() as db:
+        job = db.get(Job, job_id)
+        if not job:
+            raise HTTPException(404, "Job not found")
+        n = len(job.candidates)
+        db.delete(job)  # candidates are removed via the relationship cascade
+        db.commit()
+        return {"deleted_job": job_id, "deleted_candidates": n}
 
 
 @app.get("/api/jobs/{job_id}")
@@ -132,7 +147,7 @@ def ranking(job_id: int):
         out.sort(key=lambda x: (x["score"] is None, -(x["score"] or 0)))
         for i, row in enumerate(out, 1):
             row["rank"] = i if row["score"] is not None else None
-        return {"job_id": job_id, "pending": sum(x["status"] in ("queued", "processing") for x in out),
+        return {"job_id": job_id, "pending": sum(x["status"] not in ("done", "error") for x in out),
                 "candidates": out}
 
 

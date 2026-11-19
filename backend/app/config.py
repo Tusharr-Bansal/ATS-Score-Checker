@@ -35,7 +35,9 @@ class Settings:
     skill_matcher: str = "taxonomy" if os.getenv("SKILL_MATCHER", "").lower() == "taxonomy" or not (
         os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")) else "llm"
     match_batch_size: int = int(os.getenv("MATCH_BATCH_SIZE", 10))
-    llm_timeout_ms: int = int(os.getenv("LLM_TIMEOUT_MS", 120000))
+    llm_timeout_ms: int = int(os.getenv("LLM_TIMEOUT_MS", 60000))
+    # stop retrying a failing Gemini call after this many seconds (outage / overload) and report an error
+    llm_retry_budget_s: float = float(os.getenv("LLM_RETRY_BUDGET_S", 120))
     # client-side pacing (requests/min) to stay under the Gemini free-tier quota. 0 = unlimited (paid tier)
     llm_rpm: float = float(os.getenv("LLM_RPM", 10))
     # texts embedded per minute; Gemini embeddings free tier counts each text, limit 100/min. 0 = unlimited

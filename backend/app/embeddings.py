@@ -59,6 +59,7 @@ class Embedder:
 
         from .llm import _retry_delay, client
         out = []
+        started = time.monotonic()
         size = max(1, min(100, int(settings.embed_per_min) or 100))  # API maximum: 100 texts per request
         for i in range(0, len(texts), size):
             batch = texts[i:i + size]
@@ -83,7 +84,10 @@ class Embedder:
                     msg = str(e)
                     if attempt == 5 or not any(k in msg for k in ("429", "RESOURCE_EXHAUSTED", "503", "500", "504", "DEADLINE_EXCEEDED")):
                         raise
-                    wait = _retry_delay(msg, 2 ** (attempt + 2))
+                    wait = _retry_delay(msg, 2 ** (attempt + 2))   # raises QuotaExhausted on a daily limit
+                    if time.monotonic() - started + wait > settings.llm_retry_budget_s:
+                        raise RuntimeError(f"Gemini embeddings unavailable right now (gave up after "
+                                           f"{settings.llm_retry_budget_s:.0f} s of retries)") from e
                     log.warning("Gemini embeddings %s, retry %d/5 in %.0fs [%s]",
                                 "rate limited (429)" if "429" in msg else "unavailable", attempt + 1, wait,
                                 msg[msg.find("Please retry"):][:60] or msg[:80])

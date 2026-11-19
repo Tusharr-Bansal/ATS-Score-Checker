@@ -25,11 +25,15 @@ def _cached_extraction(db, content_hash: str, exclude_id: int):
 async def _extract_one(cid: int) -> None:
     with SessionLocal() as db:
         c = db.get(Candidate, cid)
+        if c.data:  # already extracted before an interruption: don't spend another Gemini call
+            c.status = "extracted"
+            db.commit()
+            return
         c.status = "processing"
         db.commit()
         prev = _cached_extraction(db, c.content_hash, c.id)
         if prev and prev.data:
-            c.data, c.extractor = prev.data, prev.extractor
+            c.data, c.extractor, c.status = prev.data, prev.extractor, "extracted"
             db.commit()
             return
         text = c.raw_text
@@ -37,7 +41,7 @@ async def _extract_one(cid: int) -> None:
         data, src = await extraction.extract_resume(text)
         with SessionLocal() as db:
             c = db.get(Candidate, cid)
-            c.data, c.extractor = data.model_dump(), src
+            c.data, c.extractor, c.status = data.model_dump(), src, "extracted"
             db.commit()
     except Exception as e:
         log.exception("extraction failed for candidate %s", cid)
@@ -90,6 +94,32 @@ async def process_batch(job_id: int, cand_ids: list[int]) -> None:
     # 1) LLM/rule extraction, concurrently (Gemini concurrency and pacing are handled in llm.py)
     await asyncio.gather(*(_extract_one(cid) for cid in cand_ids))
     # 2) LLM-led skill verdicts with verified quotes (falls back to taxonomy per candidate)
+    with SessionLocal() as db:
+        for cid in cand_ids:
+            c = db.get(Candidate, cid)
+            if c.status == "extracted":
+                c.status = "matching"
+        db.commit()
     verdicts = await _judge_skills(job_id, cand_ids)
     # 3) embeddings + scoring (CPU / sync API) off the event loop
     await asyncio.to_thread(_score_all, job_id, cand_ids, verdicts)
+
+
+UNFINISHED = ("queued", "processing", "extracted", "matching")
+
+
+async def resume_interrupted() -> None:
+    """Background tasks die with the server (redeploy, crash, free-tier restart). On startup, pick up
+    every resume that was left mid-way so nothing stays stuck in 'processing' forever."""
+    from collections import defaultdict
+    with SessionLocal() as db:
+        rows = db.execute(select(Candidate.job_id, Candidate.id).where(Candidate.status.in_(UNFINISHED))).all()
+    by_job = defaultdict(list)
+    for job_id, cid in rows:
+        by_job[job_id].append(cid)
+    for job_id, ids in by_job.items():
+        log.info("resuming %d interrupted resume(s) for job %s", len(ids), job_id)
+        try:
+            await process_batch(job_id, ids)
+        except Exception:
+            log.exception("could not resume job %s", job_id)

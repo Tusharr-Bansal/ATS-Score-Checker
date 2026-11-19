@@ -15,6 +15,7 @@ export default function App() {
   const [ranking, setRanking] = useState(null);
   const [selected, setSelected] = useState(null);
   const [error, setError] = useState("");
+  const [batchIds, setBatchIds] = useState([]); // candidates from the latest upload, for the progress bar
 
   const refreshJobs = () => api.listJobs().then(setJobs).catch((e) => setError(e.message));
 
@@ -27,6 +28,7 @@ export default function App() {
     setJob(null);
     setRanking(null);
     setSelected(null);
+    setBatchIds([]);
     if (jobId == null) return;
     api.getJob(jobId).then(setJob).catch((e) => setError(e.message));
     api.ranking(jobId).then(setRanking).catch((e) => setError(e.message));
@@ -47,7 +49,10 @@ export default function App() {
     setJobId(j.id);
   };
 
-  const onUploaded = () => api.ranking(jobId).then(setRanking);
+  const onUploaded = (ids) => {
+    setBatchIds(ids || []);
+    return api.ranking(jobId).then(setRanking);
+  };
 
   return (
     <div className="app">
@@ -105,8 +110,9 @@ export default function App() {
           job ? (
             // resume upload only appears once the role has been analysed and its requirements are shown
             <>
-              <JobDetails job={job} />
-              <ResumeUpload jobId={jobId} onUploaded={onUploaded} onError={setError} />
+              <JobDetails job={job} onDelete={() =>
+                api.deleteJob(jobId).then(() => { setJobId(null); refreshJobs(); }).catch((e) => setError(e.message))} />
+              <ResumeUpload jobId={jobId} onUploaded={onUploaded} onError={setError} ranking={ranking} batchIds={batchIds} />
               {ranking && <RankingTable ranking={ranking} job={job} onSelect={setSelected} selectedId={selected} />}
             </>
           ) : (

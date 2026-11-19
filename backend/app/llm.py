@@ -58,6 +58,10 @@ class _RateLimiter:
 _limiter = _RateLimiter(settings.llm_rpm)
 
 
+class QuotaExhausted(RuntimeError):
+    """The Gemini daily quota is used up; retrying is pointless until it resets."""
+
+
 def _retry_delay(msg: str, fallback: float) -> float:
     """Server-suggested wait ('Please retry in 31.5s', '...in 750ms', retryDelay: '31s'), else fallback.
     Waits over 5 minutes mean a daily quota is exhausted: raise instead of sleeping for hours."""
@@ -67,7 +71,8 @@ def _retry_delay(msg: str, fallback: float) -> float:
         return fallback
     secs = float(m.group(1)) / (1000 if m.group(2) == "ms" else 1)
     if secs > 300:
-        raise RuntimeError(f"Gemini quota exhausted (server asks to wait {secs / 3600:.1f} h): {msg[:300]}")
+        raise QuotaExhausted(f"Daily Gemini quota reached; it resets in about {max(1, round(secs / 3600))} h. "
+                             "Try again after that.")
     return secs + 1.0
 
 
@@ -125,6 +130,7 @@ async def _generate(prompt: str, schema: type[BaseModel]) -> BaseModel:
                                       temperature=0.0)
     delay = 4.0
     attempts = 6
+    started = time.monotonic()
     for attempt in range(attempts):
         try:
             async with _semaphore():
@@ -141,6 +147,9 @@ async def _generate(prompt: str, schema: type[BaseModel]) -> BaseModel:
             if attempt == attempts - 1 or not retryable:
                 raise
             wait = _retry_delay(msg, delay)
+            if time.monotonic() - started + wait > settings.llm_retry_budget_s:
+                raise RuntimeError(f"Gemini is unavailable right now (gave up after "
+                                   f"{settings.llm_retry_budget_s:.0f} s of retries): {msg[:120]}") from e
             kind = ("rate limited (429)" if "429" in msg else "unavailable (503)" if "503" in msg
                     else "timed out (504)" if "504" in msg else msg[:80])
             log.warning("Gemini %s, retry %d/%d in %.0fs", kind, attempt + 1, attempts - 1, wait)

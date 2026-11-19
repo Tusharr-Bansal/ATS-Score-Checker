@@ -2,7 +2,7 @@ import { useState } from "react";
 
 const skillLabel = (s) => s.name + (s.alternatives?.length ? ` / ${s.alternatives.join(" / ")}` : "");
 
-export default function JobDetails({ job }) {
+export default function JobDetails({ job, onDelete }) {
   const [open, setOpen] = useState(false);
   const d = job.data;
   return (
@@ -14,7 +14,14 @@ export default function JobDetails({ job }) {
             Extracted with {job.extractor === "gemini" ? "Gemini" : "rule-based parser"}
           </div>
         </div>
-        <button className="link" onClick={() => setOpen(!open)}>{open ? "Hide" : "Show"} JD text</button>
+        <div className="head-actions">
+          <button className="link" onClick={() => setOpen(!open)}>{open ? "Hide" : "Show"} JD text</button>
+          {onDelete && (
+            <button className="link danger" onClick={() => {
+              if (window.confirm(`Delete "${job.title}" and all ${job.candidate_count ?? ""} of its candidates? This cannot be undone.`)) onDelete();
+            }}>Delete job</button>
+          )}
+        </div>
       </div>
 
       <div className="req-grid">
