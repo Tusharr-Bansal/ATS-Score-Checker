@@ -16,9 +16,15 @@ from .schemas import JDData, ResumeData
 log = logging.getLogger("checkres.services")
 
 
+def _expected_extractor() -> str:
+    return "gemini" if settings.extractor == "gemini" and llm.available() else "rules"
+
+
 def _cached_extraction(db, content_hash: str, exclude_id: int):
-    """Reuse a previous extraction of the identical file (saves Gemini calls on re-uploads)."""
+    """Reuse a previous extraction of the identical file (saves Gemini calls on re-uploads), but only one made
+    by the extractor in use now: a rules fallback from a Gemini outage is never reused when Gemini is on."""
     return db.scalar(select(Candidate).where(Candidate.content_hash == content_hash, Candidate.status == "done",
+                                             Candidate.extractor == _expected_extractor(),
                                              Candidate.id != exclude_id).limit(1))
 
 
@@ -66,8 +72,19 @@ def _score_all(job_id: int, cand_ids: list[int], verdicts: dict | None = None) -
             if c.status == "error" or not c.data:
                 continue
             try:
-                r = score_candidate(ctx, ResumeData.model_validate(c.data), c.raw_text, emb,
-                                    verdicts=(verdicts or {}).get(str(cid)))
+                v = (verdicts or {}).get(str(cid))
+                r = score_candidate(ctx, ResumeData.model_validate(c.data), c.raw_text, emb, verdicts=v)
+                ai_on = settings.skill_matcher == "llm" and llm.available()
+                r["ai"] = {
+                    "extraction": c.extractor,                      # "gemini" or "rules"
+                    "matching": "llm" if v else ("unavailable" if ai_on else "off"),
+                    "fallback": ai_on and (not v or c.extractor != "gemini"),
+                }
+                if r["ai"]["fallback"]:
+                    r["reasons"].insert(0, {"type": "negative", "text":
+                        "AI analysis was unavailable for this resume (Gemini was overloaded, timed out or out of "
+                        "quota), so it was scored with the rule-based fallback, which is less accurate. "
+                        "Re-upload it later for a full AI analysis."})
                 c.score, c.result, c.status = r["score"], r, "done"
             except Exception as e:
                 log.exception("scoring failed for candidate %s", cid)

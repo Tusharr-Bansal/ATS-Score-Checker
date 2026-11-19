@@ -263,8 +263,13 @@ def score_experience(ctx, res, chunks, chunk_vecs, emb, req_options: list[tuple[
         score = min(1.0, relevant_years / req)
     else:
         score = 1.0 if relevant_years >= 1 else 0.5 + 0.5 * relevant_years
+    # dates_known: False when no role has a readable start date (e.g. redacted). Scoring is unchanged
+    # (no countable years -> same 0 as anyone else), but the UI says "dates not stated", not "0 years".
+    dates_known = any(e.start for e in res.experience)
+    for x in entries:
+        x["dates_known"] = bool(x["start"])
     return score, {"required_years": req, "total_years": total_years, "relevant_years": relevant_years,
-                   "entries": entries}
+                   "entries": entries, "dates_known": dates_known, "roles": len(res.experience)}
 
 
 # ----------------------------------------------------------------------------- education
@@ -390,7 +395,13 @@ def build_reasons(ctx: JobContext, r: dict) -> list[dict]:
                     f"resume quotes, {len(r['skill_details']) - len(llm_rows)} by the rule-based taxonomy."})
 
     e = r["experience"]
-    if e["required_years"]:
+    if not e.get("dates_known", True):
+        what = (f"{e['roles']} role(s) were found but no employment dates could be read" if e.get("roles")
+                else "no work history with dates could be read")
+        out.append({"type": "negative", "text": f"Experience: {what} (missing, redacted or in a layout the parser "
+                    f"could not read), so no years can be counted → {b['experience']['points']}/"
+                    f"{b['experience']['max_points']} pts (same rule as for every candidate)."})
+    elif e["required_years"]:
         ok = e["relevant_years"] >= e["required_years"]
         out.append({"type": "positive" if ok else "negative",
                     "text": f"{e['relevant_years']} years of relevant experience ({e['total_years']} total) vs "

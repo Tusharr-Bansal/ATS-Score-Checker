@@ -52,6 +52,13 @@ function Body({ c }) {
         </div>
       </header>
 
+      {r.ai?.fallback && (
+        <div className="warn-banner">
+          ⚠ AI analysis was unavailable for this resume (Gemini overloaded, timed out or out of quota). It was scored
+          with the rule-based fallback, which is less accurate. Re-upload it later for a full AI analysis.
+        </div>
+      )}
+
       <h3>Score breakdown</h3>
       <div className="breakdown">
         {COMPONENTS.filter(([k]) => b[k]?.max_points).map(([k, label, help]) => (
@@ -87,16 +94,21 @@ function Body({ c }) {
       <h3>Experience comparison</h3>
       <div className="exp-cmp">
         <div><b>{e.required_years != null ? `${e.required_years}+` : "—"}</b><span>required (yrs)</span></div>
-        <div><b>{e.relevant_years}</b><span>relevant (yrs)</span></div>
-        <div><b>{e.total_years}</b><span>total (yrs)</span></div>
+        <div><b>{e.dates_known === false ? "—" : e.relevant_years}</b><span>relevant (yrs)</span></div>
+        <div><b>{e.dates_known === false ? "—" : e.total_years}</b><span>total (yrs)</span></div>
       </div>
+      {e.dates_known === false && (
+        <p className="muted small">No employment dates could be read from this resume (missing, redacted or in a
+          layout the parser could not read), so no years can be counted: 0 for experience, the same rule as for
+          every candidate.</p>
+      )}
       <table className="mini">
         <thead><tr><th>Role</th><th>Period</th><th>Duration</th><th>Relevance</th></tr></thead>
         <tbody>
           {e.entries.map((x, i) => (
             <tr key={i}>
               <td>{x.title}<div className="muted small">{x.company}{x.internship && " · internship (counts 50%)"}</div></td>
-              <td className="small">{x.start || "?"} → {x.end || "?"}</td>
+              <td className="small">{x.start ? `${x.start} → ${x.end || "?"}` : "dates not found"}</td>
               <td className="small">{fmtMonths(x.months)}</td>
               <td>
                 <div className="bar thin"><div style={{ width: `${x.relevance * 100}%` }} /></div>

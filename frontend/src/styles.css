@@ -150,3 +150,8 @@ table.mini { width: 100%; border-collapse: collapse; }
 
 .head-actions { display: flex; gap: 14px; align-items: center; }
 .link.danger { color: var(--bad); }
+
+.warn-banner { background: var(--warn-soft); color: #7a4a00; border: 1px solid #f5d9a8; border-radius: 8px;
+  padding: 8px 12px; margin: 8px 0 12px; font-size: 13px; }
+.warn-chip { display: inline-block; margin-top: 2px; font-size: 11px; color: #7a4a00; background: var(--warn-soft);
+  border-radius: 999px; padding: 1px 8px; }

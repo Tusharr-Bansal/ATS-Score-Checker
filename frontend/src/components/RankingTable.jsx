@@ -6,7 +6,9 @@ export function scoreClass(s) {
 }
 
 const years = (c) =>
-  c.total_years == null ? "—" : `${Number(c.relevant_years ?? 0).toFixed(1)} yrs relevant · ${Number(c.total_years).toFixed(1)} total`;
+  c.total_years == null ? "—"
+  : c.dates_known === false ? "Dates not found"
+  : `${Number(c.relevant_years ?? 0).toFixed(1)} yrs relevant · ${Number(c.total_years).toFixed(1)} total`;
 
 export default function RankingTable({ ranking, job, onSelect, selectedId }) {
   const rows = ranking.candidates;
@@ -18,6 +20,15 @@ export default function RankingTable({ ranking, job, onSelect, selectedId }) {
         <h2>3 · Candidate ranking</h2>
         {ranking.pending > 0 && <span className="pill busy">Analysing {ranking.pending} resume(s)…</span>}
       </div>
+      {(() => {
+        const fb = rows.filter((c) => c.status === "done" && c.ai_fallback).length;
+        return fb > 0 && (
+          <div className="warn-banner">
+            ⚠ {fb} of {rows.filter((c) => c.status === "done").length} resumes were scored without AI (Gemini was
+            unavailable), using the less accurate rule-based fallback. Re-upload them later for a full AI analysis.
+          </div>
+        );
+      })()}
       <table className="rank">
         <thead>
           <tr>
@@ -44,6 +55,7 @@ export default function RankingTable({ ranking, job, onSelect, selectedId }) {
                   <div className="score-cell">
                     <span className={`score ${scoreClass(c.score)}`}>{Math.round(c.score)}%</span>
                     <span className="muted small">{c.fit}</span>
+                    {c.ai_fallback && <span className="warn-chip" title="Scored without AI (rule-based fallback)">⚠ no AI</span>}
                   </div>
                 ) : c.status === "error" ? (
                   <span className="err" title={c.error}>Error</span>

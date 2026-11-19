@@ -142,6 +142,8 @@ def ranking(job_id: int):
                 "name": d.get("name") or c.filename, "score": c.score, "fit": r.get("fit"),
                 "total_years": d.get("total_years"),
                 "relevant_years": (r.get("experience") or {}).get("relevant_years"),
+                "dates_known": (r.get("experience") or {}).get("dates_known", True),
+                "ai_fallback": bool((r.get("ai") or {}).get("fallback")),
                 "matched_skills": r.get("matched_skills", []), "missing_skills": r.get("missing_skills", []),
             })
         out.sort(key=lambda x: (x["score"] is None, -(x["score"] or 0)))
